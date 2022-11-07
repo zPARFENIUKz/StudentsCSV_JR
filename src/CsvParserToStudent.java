@@ -42,6 +42,7 @@ public class CsvParserToStudent {
      * @throws InvalidPathException, RuntimeException(IOException)
      */
     public static List<Student> getStudentsFromFile(final Path filepath) {
+        if (filepath == null) throw new IllegalArgumentException("filepath cannot be null");
         final List<Student> students = new ArrayList<>();
         try (final BufferedReader reader = Files.newBufferedReader(filepath)){
             while(reader.ready()){

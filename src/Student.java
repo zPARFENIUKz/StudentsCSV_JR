@@ -1,14 +1,16 @@
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Map;
 
 public class Student implements Comparable {
     private final String name;
     private final int idNumber;
-    private Map<String, Integer> subjects;
+    private final Map<String, Integer> subjects;
 
     public Student(final String name, final int idNumber, final Map<String, Integer> subjects){
         this.name = name;
         this.idNumber = idNumber;
+        if (subjects == null) throw new IllegalArgumentException("subjects cannot be null");
         this.subjects = subjects;
     }
 
@@ -21,11 +23,12 @@ public class Student implements Comparable {
     }
 
     public Map<String, Integer> getSubjects() {
-        return subjects;
+        return Collections.unmodifiableMap(subjects);
     }
 
     @Override
     public int compareTo(Object o) {
+        if (o == null) throw new IllegalArgumentException("o cannot be null");
         if (o instanceof Student){
             return (int) (getAverage() - ((Student) o).getAverage());
         }
@@ -48,10 +51,10 @@ public class Student implements Comparable {
     }
 
     private String subjectsToString(){
-        String result = "";
+        StringBuilder result = new StringBuilder();
         for (final Map.Entry<String, Integer> entry : subjects.entrySet()){
-            result += entry.getKey() + "," + entry.getValue() + ",";
+            result.append(entry.getKey()).append(",").append(entry.getValue()).append(",");
         }
-        return result;
+        return result.toString();
     }
 }

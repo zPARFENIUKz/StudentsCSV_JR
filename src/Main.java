@@ -10,7 +10,7 @@ public class Main {
     private static final String csvOutputPath = "C:\\Users\\zzzif\\IdeaProjects\\StudentsCSV\\CSV\\output.csv";
 
     public static void main(String[] args) {
-        final List<Student> students = CsvParserToStudent.getStudentsFromFile(csvPath);
+        final List<Student> students = CsvParserToStudent.getStudentsFromFile(Path.of(csvPath));
         final University university = new University(students);
 
         // Получаем всех студентов и их оценки по названию предмета
@@ -22,12 +22,12 @@ public class Main {
 
         // Получить рейтинг всех студентов
         List<Student> topStudents = university.getStudents().stream().sorted(Comparator.reverseOrder()).toList();
-        writeStudentsToCSV(csvOutputPath, topStudents);
+        writeStudentsToCSV(Path.of(csvOutputPath), topStudents);
 
     }
 
-    private static void writeStudentsToCSV(final String filepath, final List<Student> students){
-        try (final BufferedWriter writer = Files.newBufferedWriter(Path.of(filepath))) {
+    private static void writeStudentsToCSV(final Path filepath, final List<Student> students){
+        try (final BufferedWriter writer = Files.newBufferedWriter(filepath)) {
             for (final Student student : students){
                 writer.write(student.toString() + '\n');
             }
